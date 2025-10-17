@@ -5,6 +5,8 @@
 * **Corso di Laurea**: Informatica Umanistica
 * **Università**: Università di Pisa
 * **Docente**: Prof. Angelo Mario del Grosso
+* **Repository GitHub**: https://github.com/davidecaruso03/codificaditesti  
+* **Demo online**: https://www.pisa.live/tei
 
 ## 1. Panoramica del Progetto
 
