@@ -5,7 +5,7 @@
 * **Corso di Laurea**: Informatica Umanistica
 * **Università**: Università di Pisa
 * **Docente**: Prof. Angelo Mario del Grosso
-* **Repository GitHub**: https://github.com/davidecaruso03/codificaditesti  
+* **Repository GitHub**: https://github.com/davidecaruso03/codificaditesti
 * **Demo online**: https://www.pisa.live/tei
 
 ## 1. Panoramica del Progetto
@@ -15,7 +15,7 @@ Questo progetto implementa un **sistema di visualizzazione interattiva per testi
 ### Caratteristiche Principali
 
 * **Visualizzazione bidirezionale sincronizzata**: Collegamento interattivo tra immagini dei facsimili e testo codificato
-* **Sistema multi-pagina dinamico**: Supporta automaticamente qualsiasi numero di pagine senza modifiche al codice
+* **Sistema multi-pagina dinamico**: Supporta automaticamente qualsiasi numero di pagine senza modifiche al codice (viene modificato solo il file testo.xml)
 * **Zone interattive responsive**: Le coordinate delle zone si adattano automaticamente al ridimensionamento della finestra
 * **Codifica semantica con 13 tipologie di fenomeni notevoli**: Persone, luoghi, navi, organizzazioni, date, titoli, citazioni, enfasi, esclamazioni, termini tecnici, ruoli, paesi e identificatori
 * **Doppio sistema di interazione**: Zone visibili (overlay rosso) e zone invisibili per mantenere l'interattività
@@ -36,13 +36,13 @@ Un obiettivo chiave del progetto era **rendere la componente di visualizzazione 
 
 ## 2. Flusso di Lavoro
 
-Per la realizzazione del progetto è stato seguito il seguente flusso di lavoro:
+Per la realizzazione del progetto ho seguito il seguente flusso di lavoro:
 
-1.  **Estrazione delle Immagini**: Le immagini del testo da codificare sono state estratte da un documento PDF.
+1.  **Estrazione delle Immagini**: Ho estratto le immagini del testo da codificare da un documento PDF (https://rassegnasettimanale.animi.it/wp-content/uploads/2019/02/Vol6-1880-2-S2-F144.pdf).
 
-2.  **Trascrizione e Suddivisione**: Dalle immagini è stato trascritto il testo, che è stato poi suddiviso in righe e inserito nel foglio di calcolo `zone.xlsm`.
+2.  **Trascrizione e Suddivisione**: Dalle immagini ho trascritto il testo, che ho poi suddiviso in righe e inserito nel foglio di calcolo `zone.xlsm`.
 
-3.  **Mappatura delle Zone**: È stata creata una mappatura tra le aree grafiche delle immagini e il testo corrispondente. Per far questo, sono stati utilizzati MS Paint per rilevare le coordinate degli angoli del rettangolo contenente ogni riga di testo e il foglio `zone.xlsm` per registrarle.
+3.  **Mappatura delle Zone**: Ho creato una mappatura tra le aree grafiche delle immagini e il testo corrispondente. Per far questo, ho utilizzato MS Paint per rilevare le coordinate degli angoli del rettangolo contenente ogni riga di testo e il foglio `zone.xlsm` per registrarle.
 
 #### Struttura del Foglio Excel `zone.xlsm`
 
@@ -72,22 +72,22 @@ Questa struttura permette di:
 * **Facilitare la verifica** della corrispondenza tra zone e contenuto
 * **Automatizzare la generazione** del codice XML tramite macro VBA
 * **Organizzare il lavoro** per pagina, mantenendo separati i diversi facsimili
-4.  **Generazione del Codice XML**: Tramite macro VBA nel foglio Excel, sono state generate automaticamente le sezioni di codice da inserire nel file `testo.xml`. Nello specifico:
+4.  **Generazione del Codice XML**: Tramite macro VBA nel foglio Excel (Sviluppo > Macro), ho generato automaticamente le sezioni di codice da inserire nel file `testo.xml`. Nello specifico:
 	* La macro `EsportaTesti` ha creato i tag `<l>` contenenti le righe di testo.
 	* La macro `EsportaZone` ha creato i tag `<zone>` con le relative coordinate.
-5.  **Compilazione del teiHeader**: Nella sezione `<teiHeader>` del file `testo.xml` sono state inserite tutte le informazioni metadate relative al documento.
-6.  **Codifica Semantica**: Sono stati individuati e codificati i "fenomeni notevoli" (nomi di persona, luoghi, date, etc.) presenti nel testo tramite gli appositi tag TEI.
-7.  **Creazione dei File Web**: Sono stati creati i file `tei_transform.xsl`, `tei_transform.js` e `tei_transform.css`. Il file **`tei_transform.xsl`** (XSLT - Extensible Stylesheet Language Transformations) ha lo scopo fondamentale di **trasformare il documento `testo.xml` in una pagina HTML**, che può essere visualizzata da un browser. Legge i dati strutturati nell'XML e li riorganizza in elementi HTML, creando la struttura a due colonne e iniettando i dati necessari (come le coordinate delle zone) affinché gli script possano renderla interattiva.
+5.  **Compilazione del teiHeader**: Nella sezione `<teiHeader>` del file `testo.xml` ho inserito tutte le informazioni dei metadati relativi al documento.
+6.  **Codifica Semantica**: Ho individuato e codificato i "fenomeni notevoli" (nomi di persona, luoghi, date, etc.) presenti nel testo tramite gli appositi tag TEI.
+7.  **Creazione dei File Web**: Ho creato i file `tei_transform.xsl`, `tei_transform.js` e `tei_transform.css`. Il file **`tei_transform.xsl`** (XSLT - Extensible Stylesheet Language Transformations) ha lo scopo fondamentale di **trasformare il documento `testo.xml` in una pagina HTML**, che può essere visualizzata da un browser. Legge i dati strutturati nell'XML e li riorganizza in elementi HTML, creando la struttura a due colonne e iniettando i dati necessari (come le coordinate delle zone) affinché gli script possano renderla interattiva.
 
 ***
 
 ## 3. Strumenti Software Utilizzati
 
-Per la realizzazione del progetto sono stati impiegati i seguenti strumenti:
+Per la realizzazione del progetto ho impiegato i seguenti strumenti:
 
 * **Visual Studio Code**: Utilizzato come editor principale per tutti i file di codice, sfruttando le estensioni:
-	* **XML** (di Red Hat): per la validazione della sintassi del file `testo.xml` (tramite `Ctrl+Shift+M`).
-	* **Markdown All in One** (di Yu Zhang): per la visualizzazione dell'anteprima della documentazione (`Ctrl+Shift+V`).
+	* **XML** (di Red Hat): per la validazione della sintassi del file `testo.xml` (tramite `Ctrl+Shift+M`) utilizzando le definizioni presenti in `tei_all.dtd`.
+	* **Markdown All in One** (di Yu Zhang): per la visualizzazione dell'anteprima della documentazione (`Ctrl+Shift+V`) scritta con sintassi Markdown.
 * **MS Paint**: Impiegato per l'individuazione manuale delle coordinate in pixel delle zone di testo sulle immagini dei facsimili.
 * **MS Excel**: Usato per censire il testo e le relative coordinate delle zone, e per generare automaticamente il codice XML tramite macro VBA.
 * **LLM (Gemini e Claude)**: Utilizzati come assistenti per i processi di verifica dei risultati, per la messa a punto delle componenti JavaScript e CSS, e per l'impaginazione della documentazione in formato Markdown. Gli LLM si sono rivelati particolarmente utili per accelerare lo sviluppo del frontend, aiutando a individuare colori con un contrasto adeguato, suggerendo le regole CSS corrette per risolvere problemi di allineamento e spiegando perché alcune parti del codice JavaScript non funzionassero come previsto (ad es. il refresh degli elementi in seguito al `resize` della finestra), suggerendo le relative correzioni.
@@ -103,12 +103,12 @@ Per la realizzazione del progetto sono stati impiegati i seguenti strumenti:
 * **`tei_transform.js`**: Script JavaScript (ES5) che gestisce la logica di interattività.
 * **`tei_transform.css`**: Foglio di stile CSS3 per la formattazione e il layout.
 * **`tei_all.dtd`**: Definizione DTD per la validazione dello schema TEI.
-* **`index.html`**: Wrapper HTML che carica il documento trasformato in un `<iframe>`.
+* **`index.html`**: Contenitore HTML che carica il documento trasformato (`testo.xml`) in un `<iframe>`.
 * **`Immagini JPG`**: 6 facsimili digitalizzati delle pagine del documento.
 
 ### Flusso di Elaborazione Dati
 
-Il browser del client esegue la trasformazione XSLT sul documento XML per generare una pagina HTML. Successivamente, gli script e i fogli di stile richiamati da questa pagina creano l'interfaccia utente interattiva.
+Il browser esegue la trasformazione XSLT sul documento XML per generare una pagina HTML. Successivamente, gli script e i fogli di stile richiamati da questa pagina creano l'interfaccia utente interattiva.
 
 ***
 
@@ -116,7 +116,7 @@ Il browser del client esegue la trasformazione XSLT sul documento XML per genera
 
 ### 5.1. Documento TEI XML (`testo.xml`)
 
-Il documento è strutturato secondo gli standard TEI P5 con un `<teiHeader>` ricco di metadati e un `<body>` contenente la trascrizione. La fonte è il fascicolo n. 144 de **"La Rassegna Settimanale di Politica, Scienze, Lettere ed Arti"** pubblicato a Roma il 3 ottobre 1880 dalla Tipografia Barbera.
+Il documento è strutturato secondo gli standard TEI P5 con un `<teiHeader>` contenente i metadati e un `<body>` contenente la trascrizione. La fonte è il Volume 6, Fascicolo n. 144 de **"La Rassegna Settimanale di Politica, Scienze, Lettere ed Arti"** pubblicato a Roma il 3 ottobre 1880 dalla Tipografia Barbera.
 
 #### Struttura del TEI Header
 
@@ -153,7 +153,7 @@ Il testo include **13 tipologie di fenomeni notevoli** identificati e codificati
 
 #### Sezione Facsimile
 
-La sezione `<facsimile>` definisce **6 superfici** (surface) corrispondenti a 6 pagine digitalizzate, con **un totale di 415 zone** (righe di testo):
+La sezione `<facsimile>` definisce **6 superfici** (surface) corrispondenti a 6 pagine digitalizzate, con **un totale di 466 zone** (righe di testo):
 * Ogni riga di testo (`<l>`) nel body è collegata a una zona tramite l'attributo `@facs`
 * Ogni zona è definita con coordinate rettangolari: `@ulx`, `@uly` (angolo superiore sinistro), `@lrx`, `@lry` (angolo inferiore destro)
 
@@ -167,9 +167,132 @@ La sezione `<facsimile>` definisce **6 superfici** (surface) corrispondenti a 6 
 
 Tutte le pagine sono quindi **completamente interattive** con mappatura precisa delle coordinate.
 
-### 5.2. Script JavaScript (`tei_transform.js`)
+### 5.2. Foglio di Trasformazione XSLT (`tei_transform.xsl`)
 
-Lo script, scritto in **JavaScript ES5** per massima compatibilità, gestisce l'intera logica interattiva del sistema attraverso **628 righe di codice** ben documentate.
+Il foglio XSLT 1.0, composto da **430 righe**, è il cuore della trasformazione da TEI XML a HTML interattivo.
+
+#### Funzione Principale
+
+La trasformazione XSLT ha lo scopo fondamentale di **convertire il documento TEI XML strutturato in una pagina HTML completamente funzionale** che può essere visualizzata direttamente in un browser. Non si limita a una semplice conversione statica, ma genera dinamicamente:
+* Struttura HTML con layout a due colonne
+* Array JavaScript con coordinate delle zone estratte dall'XML
+* Collegamenti dinamici tra immagini e testo tramite ID sincronizzati
+* Metadati formattati nella sezione descrittiva
+* Elementi semantici con tooltip informativi
+
+#### Template Principali
+
+1. **Template Root** (`match="/"`, righe 66-206)
+   * Genera l'intero documento HTML5
+   * Crea struttura `<head>` con riferimenti a CSS
+   * Costruisce sezione descrittiva con metadati estratti da teiHeader
+   * Genera container principale con layout a due colonne
+   * Loop dinamico su tutte le `<surface>` del facsimile per creare immagini e image map
+   * Genera script JavaScript con array `zonesData` popolato dinamicamente
+
+2. **Template per Metadati** (righe 34-61, 284-309)
+   * `render-metadata-item-new`: Visualizza metadati semplici come "label: content" (righe 34-42)
+   * `render-transcriber-link`: Gestisce link ipertestuali per trascrittore e coordinatore (righe 43-61)
+   * `render-metadata-item-simple`: Template condizionale che mostra metadati solo se presenti (righe 284-295)
+   * `render-metadata-item-link-simple`: Crea link esterni per progetto digitale (righe 297-309)
+   * Estrae informazioni da titleStmt, publicationStmt, seriesStmt, sourceDesc
+
+3. **Template per Struttura Documento** (righe 207-282)
+   * `tei:head`: Trasforma titoli in `<h3>` con classi CSS
+   * `tei:p`: Wrapper per paragrafi con classe `.tei-paragraph`
+   * `tei:l`: **Template complesso** per righe di testo con logica condizionale:
+	 - Distingue righe di capitolo (`seg[@type='chapter']`) da righe normali
+	 - Gestisce attributi `@rend` (indent, center, right) con mapping a classi CSS
+	 - Crea ID sincronizzati con zone: `id="{substring-after(@facs, '#')}"`
+	 - Gestisce interruzioni di riga (`<br/>`) in base al tipo di rendering
+   * `tei:seg[@type='chapter']`: Trasforma in `<strong>` per enfasi
+
+4. **Template per Elementi Semantici** (righe 310-420)
+   * **13 template specializzati** per fenomeni notevoli:
+	 - `tei:persName` → `<span class="persName" title="Nome di persona">`
+	 - `tei:placeName` → `<span class="placeName" title="Nome di luogo">`
+	 - `tei:name[@type='ship']` → `<span class="name" title="Nome di nave">`
+	 - `tei:orgName` → `<span class="orgname" title="Organizzazione">`
+	 - `tei:date` → `<span class="date" title="Data">`
+	 - `tei:title` → `<span class="title" title="Titolo">`
+	 - `tei:q` → `<q class="quoted-text" title="Citazione">`
+	 - `tei:emph` → `<em class="emph" title="Enfasi">`
+	 - `tei:hi[@rend='exclamation']` → `<span class="exclamation">`
+	 - `tei:term` → `<span class="term" title="Termine tecnico">`
+	 - `tei:roleName` → `<span class="rolename" title="Ruolo">`
+	 - `tei:country` → `<span class="country" title="Nome di uno stato">`
+	 - `tei:ident` → `<span class="ident" title="Nome di oggetto">`
+   * Ogni template aggiunge classe CSS per styling e attributo `title` per tooltip
+
+5. **Template per Rendering Visuale** (righe 402-420)
+   * `tei:hi[@rend='bold']` → `<span class="rend-bold">` (grassetto)
+   * `tei:hi[@rend='italic']` → `<i class="rend-italic">` (corsivo)
+
+6. **Template Fallback** (riga 426)
+   * `text()`: Cattura tutti i nodi di testo senza template specifico e li rende come contenuto semplice
+
+#### Generazione Dinamica Zone
+
+Il blocco più critico dell'XSLT è la generazione dell'array JavaScript `zonesData` (righe 184-201):
+
+```xml
+<xsl:for-each select="/tei:TEI/tei:facsimile/tei:surface/tei:zone">
+	<xsl:variable name="zoneId" select="substring-after(@xml:id, 'ZONE_')"/>
+	<xsl:variable name="ulx" select="@ulx"/>
+	<xsl:variable name="uly" select="@uly"/>
+	<xsl:variable name="lrx" select="@lrx"/>
+	<xsl:variable name="lry" select="@lry"/>
+	{ id: '<xsl:value-of select="$zoneId"/>',
+	  coords: [<xsl:value-of select="$ulx"/>, <xsl:value-of select="$uly"/>,
+			   <xsl:value-of select="$lrx"/>, <xsl:value-of select="$lry"/>] }
+</xsl:for-each>
+```
+
+Questo codice:
+* Itera su tutte le 466 zone di tutte le 6 pagine
+* Rimuove il prefisso "ZONE_" dall'ID per creare ID pulito (es. ZN_P1_R1)
+* Estrae le 4 coordinate (ulx, uly, lrx, lry)
+* Genera oggetto JavaScript con struttura `{ id: '...', coords: [...] }`
+* Aggiunge virgola tra elementi tranne l'ultimo (`<xsl:if test="position() != last()">,</xsl:if>`) in maniera da generare un array JavaScript valido
+
+#### Loop Multi-Pagina Dinamico
+
+Per supportare qualsiasi numero di pagine (righe 152-166):
+
+```xml
+<xsl:for-each select="/tei:TEI/tei:facsimile/tei:surface">
+	<div class="page-wrapper">
+		<img id="page{position()}-image" src="{./tei:graphic/@url}"
+			 alt="Facsimile pagina {position()}" />
+		<map>
+			<xsl:for-each select="./tei:zone">
+				<area shape="rect" coords="{@ulx},{@uly},{@lrx},{@lry}"
+					  alt="Riga di testo" href="javascript:void(0);"
+					  data-zone-id="{@xml:id}"/>
+			</xsl:for-each>
+		</map>
+	</div>
+</xsl:for-each>
+```
+
+Questo genera automaticamente:
+* Un `page-wrapper` per ogni `<surface>`
+* Immagine con ID dinamico basato su `position()` (page1-image, page2-image, ecc.)
+* Image map con aree cliccabili per ogni zona della pagina
+* Attributi data per sincronizzazione JavaScript
+
+#### Caratteristiche Tecniche
+
+* **XSLT 1.0**: Massima compatibilità con tutti i processori XSLT
+* **Output HTML indent**: Codice generato leggibile e ben formattato
+* **Namespace TEI**: Gestione corretta con prefisso `tei:`
+* **XPath precisi**: Selezione accurata di elementi con predicati
+* **Template vuoti**: Template vuoti per `tei:availability` per escludere contenuto
+* **Modularità**: Template separati per ogni tipo di elemento facilitano manutenzione
+
+### 5.3. Script JavaScript (`tei_transform.js`)
+
+Lo script, scritto in **JavaScript ES5** per massima compatibilità, gestisce l'intera logica interattiva del sistema attraverso **560 righe di codice** ben documentate.
 
 #### Architettura dello Script
 
@@ -235,132 +358,9 @@ Lo script, scritto in **JavaScript ES5** per massima compatibilità, gestisce l'
 * **Responsive design**: Adattamento automatico a qualsiasi dimensione schermo
 * **Cross-platform**: Gestione specifica per problemi iOS/iPad
 
-### 5.3. Foglio di Trasformazione XSLT (`tei_transform.xsl`)
-
-Il foglio XSLT 1.0, composto da **430 righe**, è il cuore della trasformazione da TEI XML a HTML interattivo.
-
-#### Funzione Principale
-
-La trasformazione XSLT ha lo scopo fondamentale di **convertire il documento TEI XML strutturato in una pagina HTML completamente funzionale** che può essere visualizzata direttamente in un browser. Non si limita a una semplice conversione statica, ma genera dinamicamente:
-* Struttura HTML con layout a due colonne
-* Array JavaScript con coordinate delle zone estratte dall'XML
-* Collegamenti dinamici tra immagini e testo tramite ID sincronizzati
-* Metadati formattati nella sezione descrittiva
-* Elementi semantici con tooltip informativi
-
-#### Template Principali
-
-1. **Template Root** (`match="/"`, righe 66-206)
-   * Genera l'intero documento HTML5
-   * Crea struttura `<head>` con riferimenti a CSS
-   * Costruisce sezione descrittiva con metadati estratti da teiHeader
-   * Genera container principale con layout a due colonne
-   * Loop dinamico su tutte le `<surface>` del facsimile per creare immagini e image map
-   * Genera script JavaScript con array `zonesData` popolato dinamicamente
-
-2. **Template per Metadati** (righe 34-309)
-   * `render-metadata-item-new`: Visualizza metadati semplici come "label: content"
-   * `render-transcriber-link`: Gestisce link ipertestuali per trascrittore e coordinatore
-   * `render-metadata-item-simple`: Template condizionale che mostra metadati solo se presenti
-   * `render-metadata-item-link-simple`: Crea link esterni per progetto digitale
-   * Estrae informazioni da titleStmt, publicationStmt, seriesStmt, sourceDesc
-
-3. **Template per Struttura Documento** (righe 207-282)
-   * `tei:head`: Trasforma titoli in `<h3>` con classi CSS
-   * `tei:p`: Wrapper per paragrafi con classe `.tei-paragraph`
-   * `tei:l`: **Template complesso** per righe di testo con logica condizionale:
-	 - Distingue righe di capitolo (`seg[@type='chapter']`) da righe normali
-	 - Gestisce attributi `@rend` (indent, center, right) con mapping a classi CSS
-	 - Crea ID sincronizzati con zone: `id="{substring-after(@facs, '#')}"`
-	 - Gestisce interruzioni di riga (`<br/>`) in base al tipo di rendering
-   * `tei:seg[@type='chapter']`: Trasforma in `<strong>` per enfasi
-
-4. **Template per Elementi Semantici** (righe 310-420)
-   * **13 template specializzati** per fenomeni notevoli:
-	 - `tei:persName` → `<span class="persName" title="Nome di persona">`
-	 - `tei:placeName` → `<span class="placeName" title="Nome di luogo">`
-	 - `tei:name[@type='ship']` → `<span class="name" title="Nome di nave">`
-	 - `tei:orgName` → `<span class="orgname" title="Organizzazione">`
-	 - `tei:date` → `<span class="date" title="Data">`
-	 - `tei:title` → `<span class="title" title="Titolo">`
-	 - `tei:q` → `<q class="quoted-text" title="Citazione">`
-	 - `tei:emph` → `<em class="emph" title="Enfasi">`
-	 - `tei:hi[@rend='exclamation']` → `<span class="exclamation">`
-	 - `tei:term` → `<span class="term" title="Termine tecnico">`
-	 - `tei:roleName` → `<span class="rolename" title="Ruolo">`
-	 - `tei:country` → `<span class="country" title="Nome di uno stato">`
-	 - `tei:ident` → `<span class="ident" title="Nome di oggetto">`
-   * Ogni template aggiunge classe CSS per styling e attributo `title` per tooltip
-
-5. **Template per Rendering Visuale** (righe 402-420)
-   * `tei:hi[@rend='bold']` → `<span class="rend-bold">` (grassetto)
-   * `tei:hi[@rend='italic']` → `<i class="rend-italic">` (corsivo)
-
-6. **Template Fallback** (riga 426)
-   * `text()`: Cattura tutti i nodi di testo senza template specifico e li rende come contenuto semplice
-
-#### Generazione Dinamica Zone
-
-Il blocco più critico dell'XSLT è la generazione dell'array JavaScript `zonesData` (righe 184-201):
-
-```xml
-<xsl:for-each select="/tei:TEI/tei:facsimile/tei:surface/tei:zone">
-	<xsl:variable name="zoneId" select="substring-after(@xml:id, 'ZONE_')"/>
-	<xsl:variable name="ulx" select="@ulx"/>
-	<xsl:variable name="uly" select="@uly"/>
-	<xsl:variable name="lrx" select="@lrx"/>
-	<xsl:variable name="lry" select="@lry"/>
-	{ id: '<xsl:value-of select="$zoneId"/>',
-	  coords: [<xsl:value-of select="$ulx"/>, <xsl:value-of select="$uly"/>,
-			   <xsl:value-of select="$lrx"/>, <xsl:value-of select="$lry"/>] }
-</xsl:for-each>
-```
-
-Questo codice:
-* Itera su tutte le 415 zone di tutte le 6 pagine
-* Rimuove il prefisso "ZONE_" dall'ID per creare ID pulito (es. ZN_P1_R1)
-* Estrae le 4 coordinate (ulx, uly, lrx, lry)
-* Genera oggetto JavaScript con struttura `{ id: '...', coords: [...] }`
-* Aggiunge virgola tra elementi tranne l'ultimo (`<xsl:if test="position() != last()">,</xsl:if>`)
-
-#### Loop Multi-Pagina Dinamico
-
-Per supportare qualsiasi numero di pagine (righe 152-166):
-
-```xml
-<xsl:for-each select="/tei:TEI/tei:facsimile/tei:surface">
-	<div class="page-wrapper">
-		<img id="page{position()}-image" src="{./tei:graphic/@url}"
-			 alt="Facsimile pagina {position()}" />
-		<map>
-			<xsl:for-each select="./tei:zone">
-				<area shape="rect" coords="{@ulx},{@uly},{@lrx},{@lry}"
-					  alt="Riga di testo" href="javascript:void(0);"
-					  data-zone-id="{@xml:id}"/>
-			</xsl:for-each>
-		</map>
-	</div>
-</xsl:for-each>
-```
-
-Questo genera automaticamente:
-* Un `page-wrapper` per ogni `<surface>`
-* Immagine con ID dinamico basato su `position()` (page1-image, page2-image, ecc.)
-* Image map con aree cliccabili per ogni zona della pagina
-* Attributi data per sincronizzazione JavaScript
-
-#### Caratteristiche Tecniche
-
-* **XSLT 1.0**: Massima compatibilità con tutti i processori XSLT
-* **Output HTML indent**: Codice generato leggibile e ben formattato
-* **Namespace TEI**: Gestione corretta con prefisso `tei:`
-* **XPath precisi**: Selezione accurata di elementi con predicati
-* **Template nascosti**: Template vuoti per `tei:availability` per escludere contenuto
-* **Modularità**: Template separati per ogni tipo di elemento facilitano manutenzione
-
 ### 5.4. Foglio di Stile CSS (`tei_transform.css`)
 
-Il foglio di stile, composto da **605 righe**, definisce la presentazione completa del sistema con un design moderno e responsive.
+Il foglio di stile, composto da **524 righe**, definisce la presentazione completa del sistema con un design moderno e responsive.
 
 #### Layout Principale
 
@@ -446,18 +446,18 @@ Ogni elemento ha:
 
 | Componente | Righe di Codice | Dimensione | Linguaggio |
 |------------|----------------|------------|------------|
-| `testo.xml` | 1,078 | ~90 KB | TEI XML |
-| `tei_transform.xsl` | 430 | ~15 KB | XSLT 1.0 |
-| `tei_transform.js` | 628 | ~25 KB | JavaScript ES5 |
-| `tei_transform.css` | 605 | ~12 KB | CSS3 |
+| `testo.xml` | 1,066 | ~90 KB | TEI XML |
+| `tei_transform.xsl` | 430 | ~16 KB | XSLT 1.0 |
+| `tei_transform.js` | 560 | ~24 KB | JavaScript ES5 |
+| `tei_transform.css` | 524 | ~8 KB | CSS3 |
 | `tei_all.dtd` | - | ~500 KB | DTD |
 | `index.html` | 35 | ~1 KB | HTML5 |
-| **TOTALE** | **2,776** | **~643 KB** | - |
+| **TOTALE** | **2,615** | **~639 KB** | - |
 
 ### Contenuto Codificato
 
 * **Pagine digitalizzate**: 6 facsimili JPG
-* **Totale zone interattive**: 415 righe di testo mappate
+* **Totale zone interattive**: 466 righe di testo mappate
 * **Fenomeni notevoli codificati**: 13 tipologie diverse
 * **Sezioni documento**: 6 div (articoli e rubriche)
 * **Metadati**: 6 analytic + 1 monogr nella biblStruct
@@ -529,7 +529,7 @@ Ogni elemento ha:
 2. **Scalabilità e Performance**
    * Sistema responsive che si adatta a qualsiasi dimensione schermo
    * Ottimizzazioni per ridimensionamento (timeout, debouncing)
-   * Gestione efficiente di 415 zone interattive
+   * Gestione efficiente di 466 zone interattive
 
 3. **Standard e Compatibilità**
    * Piena conformità allo standard TEI P5 versione 4.10.2
