@@ -519,7 +519,29 @@ Ogni elemento ha:
 
 ***
 
-## 8. Punti di Forza del Progetto
+## 8. Passaggi verifica e generazione con Saxon
+
+Ho usato il sito:<br>
+http://xsltransform.net
+<br>testando sia con diverse versioni di Saxon che con Xalan
+
+1) Ho incluso direttamente in **tei_transform.xsl** i files **tei_transform.css** e **tei_transform.js** facendo attenzione ad eventuali caratteri speciali che potessero dar problemi.
+2) Ho copiato il file **tei_transform.xsl** nella sezione **XLS** del sito
+3) Ho copiato il file **testo.xml** nella sezione **XML** - **Togliendo le righe 2 e 3 che includevano il .dtd e il .xsl**
+4) Non ho ricevuto errori dalla trasformazione e ho salvato il Result HTML nel file **index.html**
+
+Aprendo il sito sul file **index.html** generato da saxon funziona correttamente
+
+Su GIT ho creato una directory **saxon** con i sorgenti di questa verifica.<br>
+https://github.com/davidecaruso03/codificaditesti/tree/main/saxon
+
+Aprendo<br>
+https://www.pisa.live/tei3
+<br>si può vedere la versione funzionante che usa l'HTML generato tramite Saxon
+
+***
+
+## 9. Punti di Forza del Progetto
 
 1. **Architettura Modulare e Riusabile**
    * I file di trasformazione, stile e script sono completamente indipendenti dal contenuto specifico
@@ -549,7 +571,7 @@ Ogni elemento ha:
 
 ***
 
-## 9. Conclusioni
+## 10. Conclusioni
 
 Questo progetto punta a dimostrare come gli standard TEI P5 possano essere efficacemente combinati con tecnologie web moderne (XSLT, JavaScript, CSS) per creare **strumenti di visualizzazione interattiva** di testi storici e letterari.
 
