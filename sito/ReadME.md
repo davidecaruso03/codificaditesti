@@ -10,11 +10,12 @@
 
 ## 1. Panoramica del Progetto
 
-Questo progetto implementa un **sistema di visualizzazione interattiva per testi codificati in TEI Roma P5**. Il sistema permette di navigare simultaneamente i facsimili digitalizzati di un documento storico e la relativa trascrizione codificata, creando un collegamento visivo interattivo tra ogni riga di testo e la sua esatta posizione sull'immagine originale.
+Questo progetto implementa un **sistema di visualizzazione interattiva per testi codificati in TEI Roma P5**.  
+Il sistema permette di navigare simultaneamente i facsimili digitalizzati di un documento storico e la relativa trascrizione codificata, creando un collegamento visivo interattivo tra ogni riga di testo e la sua esatta posizione sull'immagine originale.
 
 ### Caratteristiche Principali
 
-* **Visualizzazione bidirezionale sincronizzata**: Collegamento interattivo tra immagini dei facsimili e testo codificato
+* **Visualizzazione sincronizzata**: Collegamento interattivo tra immagini dei facsimili e testo codificato
 * **Sistema multi-pagina dinamico**: Supporta automaticamente qualsiasi numero di pagine senza modifiche al codice (viene modificato solo il file testo.xml)
 * **Zone interattive responsive**: Le coordinate delle zone si adattano automaticamente al ridimensionamento della finestra
 * **Codifica semantica con 13 tipologie di fenomeni notevoli**: Persone, luoghi, navi, organizzazioni, date, titoli, citazioni, enfasi, esclamazioni, termini tecnici, ruoli, paesi e identificatori
@@ -22,7 +23,8 @@ Questo progetto implementa un **sistema di visualizzazione interattiva per testi
 
 ### Obiettivo di Riusabilità
 
-Un obiettivo chiave del progetto era **rendere la componente di visualizzazione indipendente dal contenuto specifico del file `testo.xml`**. L'architettura è stata progettata in modo che il sistema possa essere impiegato per la codifica e la visualizzazione di testi completamente diversi senza la necessità di modificare i file di trasformazione (`.xsl`) con le relative componenti CSS e JavaScript.
+Un obiettivo chiave del progetto era **rendere la componente di visualizzazione indipendente dal contenuto specifico del file `testo.xml`**.  
+L'architettura è stata progettata in modo che il sistema possa essere impiegato per la codifica e la visualizzazione di testi completamente diversi senza la necessità di modificare il file di trasformazione (`.xsl`).
 
 ### Standard e Tecnologie
 
@@ -38,11 +40,17 @@ Un obiettivo chiave del progetto era **rendere la componente di visualizzazione 
 
 Ho diviso lo sviluppo in 2 fasi:
 
--  **Fase 1: Generazione dell'HTML direttamente dal browser a partire da xml + xsl**<br>
-Per velocizzare la fase di sviluppo, consentendo di modificare e testare il funzionamento interattivamente e in tempo reale.
+-  **Fase 1: Generazione dell'HTML direttamente dal browser a partire da xml + xsl**  
+Questo per 2 motivi:
+1. Velocizzare la fase di sviluppo del codice, consentendo di modificare e testare il funzionamento del SW interattivamente e in tempo reale (una tantum).
+2. Accelerare e semplificare la fase di messa a punto di una codifica che può essere verificata interattivamente mentre la si crea (ogni volta che si fa una codifica di un nuovo testo).
 
--  **Fase 2: Trasformazione con Saxon da xml + xsl a HTML**<br>
-Viene utilizzato l'HTML generato da Saxon per la versione conclusiva del progetto.
+    Quindi la Fase 1 è stata fatta  inizialmente per creare la soluzione SW di trasformazione (file tei_transform.xsl)  
+    e viene ripetuta ogni volta che deve essera fatta la codifica digitale di un novo testo
+
+-  **Fase 2: Trasformazione finale con Saxon da xml + xsl a HTML**  
+Viene utilizzato l'HTML generato da Saxon per la versione conclusiva del progetto.  
+In questa fase il file tei _transform.xsl contiene al suo interno anche le componenti .css e .js che in Fase 1 erano in file separati e inclusi.
 
 Il flusso di lavoro seguito nella **Fase 1** é:
 
@@ -91,7 +99,7 @@ Questa struttura permette di:
 
 ## 3. Strumenti Software Utilizzati
 
-Per la realizzazione del progetto ho impiegato i seguenti strumenti:
+Per la realizzazione del progetto, nella **Fase 1**, ho impiegato i seguenti strumenti:
 
 * **Visual Studio Code**: Utilizzato come editor principale per tutti i file di codice, sfruttando le estensioni:
 	* **XML** (di Red Hat): per la validazione della sintassi del file `testo.xml` (tramite `Ctrl+Shift+M`) utilizzando le definizioni presenti in `tei_all.dtd`.
@@ -100,10 +108,16 @@ Per la realizzazione del progetto ho impiegato i seguenti strumenti:
 * **MS Excel**: Usato per censire il testo e le relative coordinate delle zone, e per generare automaticamente il codice XML tramite macro VBA.
 * **LLM (Gemini e Claude)**: Utilizzati come assistenti per i processi di verifica dei risultati, per la messa a punto delle componenti JavaScript e CSS, e per l'impaginazione della documentazione in formato Markdown. Gli LLM si sono rivelati particolarmente utili per accelerare lo sviluppo del frontend, aiutando a individuare colori con un contrasto adeguato, suggerendo le regole CSS corrette per risolvere problemi di allineamento e spiegando perché alcune parti del codice JavaScript non funzionassero come previsto (ad es. il refresh degli elementi in seguito al `resize` della finestra), suggerendo le relative correzioni.
 
-**Nota:**<br>
-Per la validazione dell'xml rispetto al dtd ho utilizzato l'estensione XML (di Red Hat) ma, per completezza, al termine del progetto ho utilizzato anche la versione Java di **Xerces 2.12.2**<br>
-Nella directory xerces vi è il batch **EseguiXerces.bat** utilizzato per la validazione assieme ai file .xml e .dtd<br>
-La validazione con Xerces non ha prodotto errori.
+Nella **Fase 2**, ho impiegato i seguenti strumenti:
+
+* La versione Java di **Xerces 2.12.2** per la validazione finale dell'xml rispetto al dtd.
+* La versione Java di **saxon-he-12.9** per la generazione dell'HTML da utilizzare
+
+Nella directory xerces vi è il batch **EseguiXerces.bat** utilizzato per la validazione assieme ai file .xml e .dtd  
+La validazione con Xerces non ha prodotto errori.  
+
+Nella directory saxon vi è il batch **EseguiSaxon.bat** utilizzato per la trasformazione da xsl ad HTML  
+La trasformazione con Saxon non ha prodotto errori.
 
 ***
 
@@ -112,7 +126,7 @@ La validazione con Xerces non ha prodotto errori.
 ### Componenti Principali
 
 * **`testo.xml`**: Documento TEI P5 contenente i metadati e il testo codificato della rivista "La Rassegna Settimanale".
-* **`tei_transform.xsl`**: Foglio di stile XSLT 1.0 per la trasformazione da XML a HTML.
+* **`tei_transform.xsl`**: documento XSLT 1.0 per la trasformazione da XML a HTML.
 * **`tei_transform.js`**: Script JavaScript (ES5) che gestisce la logica di interattività.
 * **`tei_transform.css`**: Foglio di stile CSS3 per la formattazione e il layout.
 * **`tei_all.dtd`**: Definizione DTD per la validazione dello schema TEI.
@@ -123,11 +137,11 @@ La validazione con Xerces non ha prodotto errori.
 
 Il browser esegue la trasformazione XSLT sul documento XML per generare una pagina HTML. Successivamente, gli script e i fogli di stile richiamati da questa pagina creano l'interfaccia utente interattiva.
 
-Su GIT ho creato una directory **sviluppo** con file utilizzati durante la fase 1.<br>
-https://github.com/davidecaruso03/codificaditesti/tree/main/sviluppo<br>
+Su GIT ho creato una directory **sviluppo** con file utilizzati durante la fase 1.  
+https://github.com/davidecaruso03/codificaditesti/tree/main/sviluppo
 
-Aprendo<br>
-https://www.pisa.live/tei<br>
+Relativamente alla Fase 1, aprendo  
+https://www.pisa.live/tei  
 si può vedere la versione che usa la generazione dell'HTML direttamente dal browser a partire da xml + xsl
 
 ***
@@ -331,7 +345,7 @@ Lo script, scritto in **JavaScript ES5** per massima compatibilità, gestisce l'
    * Creazione di due layer: zone visibili e aree invisibili
 
 4. **Evidenziazione del Testo** (righe 141-176)
-   * `highlightText(zoneId)`: Sincronizzazione bidirezionale immagine ↔ testo
+   * `highlightText(zoneId)`: Sincronizzazione tra immagine ↔ testo
    * Rimozione evidenziazione precedente (single selection)
    * Scroll automatico con animazione smooth per centrare riga evidenziata
    * Gestione speciale per dispositivi iOS
@@ -509,7 +523,7 @@ Ogni elemento ha:
 ### Interattività
 
 * **Zone cliccabili dinamiche** - Overlay rosso con coordinate scalate responsive
-* **Sincronizzazione bidirezionale** - Click su zona → evidenzia testo
+* **Sincronizzazione tra immagine e testo** - Click su zona → evidenzia testo
 * **Scroll automatico** - Centra automaticamente la riga selezionata
 * **Doppio sistema di interazione** - Zone visibili/invisibili con toggle
 * **Effetti hover** - Feedback visivo su zone e righe di testo
@@ -541,35 +555,35 @@ Ogni elemento ha:
 
 ## 8. Verifica e generazione progetto definitivo con Saxon (Fase 2)
 
-Tra i requisiti del progetto c'è la generazione tramite **Saxon** dell'HTML.<br>
-Nella fase di creazione del progetto (Fase 1) ho utilizzato la generazione dell'HTML direttamente dal browser a partire da xsl.<br>
+Tra i requisiti del progetto c'è la generazione tramite **Saxon** dell'HTML.  
+Nella fase di creazione del progetto (Fase 1) ho utilizzato la generazione dell'HTML direttamente dal browser a partire da xsl.  
 Questo ha consentito di velocizzare la fase di sviluppo, consentendo di modificare e testare il funzionamento interattivamente e in tempo reale.
 
 Una volta ottenuto il risultato desiderato dal punto di vista della grafica, interattività e rispetto delle caratteristiche desiderate sono passato alla generazione tramite Saxon dell'HTML (Fase 2).
 
-Prima, per una verifica veloce, ho usato il sito:
+Inizialmente, per una verifica veloce, ho usato il sito:
 http://xsltransform.net
 verificando che tutto andasse bene sia con diverse versioni di Saxon che con Xalan
 
-Quindi ho usato su PC la versione locale java **saxon-he-12.9**<br>
-con il comando<br>
-java -jar F:\SaxonHE\saxon-he-12.9.jar -s:testo.xml -xsl:tei_transform.xsl -o:index.html<br>
+Quindi ho usato su PC la versione locale java **saxon-he-12.9**  
+con il comando  
+java -jar F:\SaxonHE\saxon-he-12.9.jar -s:testo.xml -xsl:tei_transform.xsl -o:index.html  
 per verificare la correttezza del file **tei_transform.xsl** e per generare il file **index.html** dell'esempio finale.
 
-Attenzione: per la generazione con Saxon ho creato una copia del file **testo.xml** nella directory Saxon, dalla quale ho rimosso la riga 3 contenente l'inclusione di **tei_transform.xsl** poiché non necessaria per Saxon (che riceve il foglio di stile come argomento da riga di comando)
+Attenzione: per la generazione con Saxon ho creato una copia del file **testo.xml** nella directory Saxon, dalla quale ho rimosso la riga 3 contenente l'inclusione di **tei_transform.xsl** poiché non necessaria per Saxon (che riceve il documento xsl come argomento da riga di comando)
 
 Non ho ricevuto errori dalla trasformazione e ho dunque utilizzato il file generato **index.html**
 
 Ho quindi ritestato il funzionamento e il rispetto dei requisiti W3C con la versione finale che utilizza l'HTML generato da Saxon
 
-Su GIT ho creato una directory **saxon** con i file utilizzati per la trasformazione.<br>
-https://github.com/davidecaruso03/codificaditesti/tree/main/saxon<br>
-e ho creato una di directory **sito** con la versione definitiva del progetto<br>
-https://github.com/davidecaruso03/codificaditesti/tree/main/sito<br>
+Su GIT ho creato una directory **saxon** con i file utilizzati per la trasformazione.  
+https://github.com/davidecaruso03/codificaditesti/tree/main/saxon  
+e ho creato una di directory **sito** con la versione definitiva del progetto (quella creata con saxon)  
+https://github.com/davidecaruso03/codificaditesti/tree/main/sito  
 
-Aprendo<br>
-https://www.pisa.live/tei3
-<br>si può vedere la versione finale funzionante che usa l'HTML generato tramite Saxon
+Aprendo  
+https://www.pisa.live/tei3  
+si può vedere la versione finale funzionante che usa l'HTML generato tramite Saxon
 
 ### Componenti Principali Fase 2
 
@@ -598,9 +612,9 @@ Progetto/
 │   ├── index.html              # Viewer iframe per sviluppo interattivo
 │   ├── testo.xml               # Sorgente TEI XML principale
 │   ├── tei_all.dtd             # Validazione schema
-│   ├── tei_transform.xsl       # Foglio di stile XSLT
-│   ├── tei_transform.js        # Logica JavaScript inclusa in .xls
-│   ├── tei_transform.css       # Foglio di stile CSS incluso in .xls
+│   ├── tei_transform.xsl       # Documento XSLT
+│   ├── tei_transform.js        # Logica JavaScript inclusa in .xsl
+│   ├── tei_transform.css       # Foglio di stile CSS incluso in .xsl
 │   ├── zone.xlsm               # Excel per mappatura coordinate
 │   ├── ReadME.md               # Copia della Documentazione principale
 │   ├── ReadME.pdf              # Copia Pdf della Documentazione principale
@@ -611,13 +625,13 @@ Progetto/
 │   ├── EseguiSaxon.bat         # Script per automatizzare la trasformazione
 │   ├── testo.xml               # Sorgente TEI XML principale
 │   ├── tei_all.dtd             # Validazione schema
-│   ├── tei_transform.xsl       # Foglio di stile XSLT
+│   ├── tei_transform.xsl       # Documento XSLT (contenente all'interno css e js)
 │   ├── index.html              # Output generato da Saxon
 │   └── VerificaSaxon.txt       # Descrizione della transcodifica
 │
 ├── xerces/                     # VALIDAZIONE con Xerces
 │   ├── EseguiXerces.bat        # Script per invocare la validazione
-│   ├── testo.xml               # Sorgente TEI XML principale
+│   ├── testo.xml               # Sorgente TEI XML principale (senza inclusione di xsl)
 │   └── tei_all.dtd             # Validazione schema
 │
 └── sito/                       # VERSIONE FINALE: Deploy
@@ -656,7 +670,7 @@ Progetto/
 
 5. **Documentazione**
    * Codice commentato
-   * README esplicativo per utilizzo
+   * ReadME esplicativo per utilizzo
 
 ***
 
