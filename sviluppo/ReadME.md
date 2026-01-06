@@ -618,6 +618,7 @@ Progetto/
 │   ├── zone.xlsm               # Excel per mappatura coordinate
 │   ├── ReadME.md               # Copia della Documentazione principale
 │   ├── ReadME.pdf              # Copia Pdf della Documentazione principale
+│   ├── Elementi TEI usati.md   # Elenco elementi TEI usati in testo.xml
 │   ├── favicon.ico             # Icona del sito
 │   └── [Immagini JPG]          # Facsimili per lo sviluppo
 │
